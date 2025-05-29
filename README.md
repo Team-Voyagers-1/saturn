@@ -1,12 +1,63 @@
-# React + Vite
+# 🌐 Voyager Frontend – React + TSX + Ant Design
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend client for **Project Voyager** — a tool to simplify the Software Development Life Cycle (SDLC) by automating the creation of user stories and epics on JIRA.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Part 1: What This Application Is & What It Does
 
-## Expanding the ESLint configuration
+**Saturn** is built using **React (with TypeScript)** and styled using **Ant Design (antd)**. It interacts with the Django REST API backend to:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Register and authenticate users
+- Provide secure access to project features
+- Serve as the user interface for uploading business inputs
+- Display user-generated stories and epics (upcoming)
+
+Ultimately, it serves as the interface where product managers, analysts, and business users can interact with Voyager.
+
+---
+
+## 🛠️ Part 2: Setup Instructions
+
+```
+# 1. Clone the repository
+git clone https://github.com/Team-Voyagers-1/saturn.git
+cd saturn
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+```
+
+> Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+
+---
+
+## 📘 Part 3: Features & Routes
+
+### 📥 Public Routes
+
+| Route       | Component      | Description          |
+| ----------- | -------------- | -------------------- |
+| `/login`    | `Login.tsx`    | Login page for users |
+| `/register` | `Register.tsx` | Registration form    |
+
+### 🔐 Private Route
+
+| Route | Component      | Access                    | Description             |
+| ----- | -------------- | ------------------------- | ----------------------- |
+| `/`   | `HomePage.tsx` | Requires login (JWT auth) | Main homepage/dashboard |
+
+> Private routes are protected using JWT token stored in `localStorage`.
+
+---
+
+## 🎨 UI Components
+
+- All forms (login/register) are rendered inside **Ant Design Cards**
+- Buttons, inputs, and alerts use `antd` for consistent design
+- Responsive layout with minimal boilerplate
+
+---
