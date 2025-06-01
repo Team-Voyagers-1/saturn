@@ -7,7 +7,7 @@ interface Props {
 
 const PrivateRoute: React.FC<Props> = ({ children }) => {
   const token = localStorage.getItem("user_id");
-  return token ? children : <Navigate to="/login" />;
+  return token ? children : <Navigate to="/main" />;
 };
 
 export default PrivateRoute;

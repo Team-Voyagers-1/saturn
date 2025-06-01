@@ -15,7 +15,7 @@ const Login: React.FC = () => {
       const res = await axios.post("http://localhost:8000/api/login/", values);
       message.success(res.data.message);
       localStorage.setItem("user_id", res.data.user_id);
-      window.location.href = "/";
+      window.location.href = "/home";
     } catch (err: any) {
       message.error(err.response?.data?.error || "Login failed");
     }
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
 
   return (
     <div
-      style={{ display: "flex", justifyContent: "center", marginTop: "100px" }}>
+      style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
       <Card title={<Title level={3}>Login</Title>} style={{ width: 400 }}>
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item

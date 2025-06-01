@@ -30,7 +30,7 @@ const Register: React.FC = () => {
 
   return (
     <div
-      style={{ display: "flex", justifyContent: "center", marginTop: "100px" }}>
+      style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
       <Card title={<Title level={3}>Register</Title>} style={{ width: 400 }}>
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
