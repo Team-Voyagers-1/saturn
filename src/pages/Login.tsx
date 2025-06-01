@@ -10,14 +10,27 @@ interface LoginFormValues {
 }
 
 const Login: React.FC = () => {
+  const [form] = Form.useForm();
+
   const onFinish = async (values: LoginFormValues) => {
     try {
-      const res = await axios.post("http://localhost:8000/api/login/", values);
+      const res = await axios.post("http://127.0.0.1:8000/api/users/login/", values);
       message.success(res.data.message);
       localStorage.setItem("user_id", res.data.user_id);
       window.location.href = "/home";
     } catch (err: any) {
-      message.error(err.response?.data?.error || "Login failed");
+      const errorMessage = err.response?.data?.error || "Login failed";
+      if (errorMessage === "Invalid credentials") {
+            form.setFields([
+              {
+                name: "password",
+                errors: ["Incorrect username or password"],
+              },
+            ]);
+        console.log("Fields error:", form.getFieldsError());
+      } else {
+            message.error(errorMessage);
+      }
     }
   };
 
@@ -25,7 +38,7 @@ const Login: React.FC = () => {
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
       <Card title={<Title level={3}>Login</Title>} style={{ width: 400 }}>
-        <Form layout="vertical" onFinish={onFinish}>
+        <Form form={form} layout="vertical" onFinish={onFinish} validateTrigger="onSubmit">
           <Form.Item
             name="username"
             label="Username"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, message, Card, Typography } from "antd";
+import { Form, Input, Button, message, Card, Typography, Select } from "antd";
 import axios from "axios";
 
 const { Title } = Typography;
@@ -15,8 +15,9 @@ const Register: React.FC = () => {
   const onFinish = async (values: FormValues) => {
     setLoading(true);
     try {
+      console.log(values);
       const res = await axios.post(
-        "http://localhost:8000/api/register/",
+        "http://127.0.0.1:8000/api/users/register/",
         values,
       );
       message.success(res.data.message);
@@ -44,6 +45,18 @@ const Register: React.FC = () => {
             label="Password"
             rules={[{ required: true }]}>
             <Input.Password />
+          </Form.Item>
+          <Form.Item
+              name="role"
+              label="Role"
+              rules={[{ required: true, message: 'Please select a role' }]}>
+              <Select placeholder="Select a role">
+                 <Option value="admin">Admin</Option>
+                 <Option value="productOwner">Product Owner</Option>
+                 <Option value="scrumMaster">Scrum Master</Option>
+                 <Option value="businessAnalyst">Business Analyst</Option>
+                 <Option value="devLead">Dev Lead</Option>
+              </Select>
           </Form.Item>
           <Button type="primary" htmlType="submit" loading={loading} block>
             Register

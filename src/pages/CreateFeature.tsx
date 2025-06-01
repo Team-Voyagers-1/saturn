@@ -11,17 +11,21 @@ interface FormValues {
 const CreateFeature: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const [file, setFile] = useState<File | null>(null);
 
   const onFinish = async (values: FormValues) => {
     setLoading(true);
-    if(values.file === null){
-        message.error('Please upload a file.');
-      return;
+    if (!file) {
+          message.error("Please upload a file.");
+          return;
     }
     try {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("file", file);
       const res = await axios.post(
-        "http://localhost:8000/api/create/",
-        values,
+        "http://127.0.0.1:8000/api/widgets/upload/",
+        formData,
       );
       message.success(res.data.message);
       window.location.href = "/feature";
@@ -49,7 +53,7 @@ const CreateFeature: React.FC = () => {
       style={{ maxWidth: 400 }}
     >
           <Form.Item
-        label="Name"
+        label="Feature name"
         name="name"
         rules={[
           { required: true, message: 'Please input your name!' } ]}
@@ -61,7 +65,10 @@ const CreateFeature: React.FC = () => {
         required
       >
         <Upload
-          beforeUpload={() => false}
+          beforeUpload={(file) => {
+              setFile(file);
+              return false;
+          }}
           maxCount={1}
         >
           <Button icon={<UploadOutlined />}>Select File</Button>
