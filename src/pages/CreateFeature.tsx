@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, message,Typography, Upload } from "antd";
 import axios from "axios";
 import { UploadOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 interface FormValues {
   name: string;
@@ -12,6 +13,7 @@ const CreateFeature: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [file, setFile] = useState<File | null>(null);
+  const navigate = useNavigate();
 
   const onFinish = async (values: FormValues) => {
     setLoading(true);
@@ -28,7 +30,7 @@ const CreateFeature: React.FC = () => {
         formData,
       );
       message.success(res.data.message);
-      window.location.href = "/feature";
+      navigate("/feature", { state: res.data });
       form.resetFields();
     } catch (err: any) {
       message.error(err.response?.data?.error || "Failed to create Feature");

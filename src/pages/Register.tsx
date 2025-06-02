@@ -21,7 +21,7 @@ const Register: React.FC = () => {
         values,
       );
       message.success(res.data.message);
-      window.location.href = "/login";
+      window.location.href = "/main";
     } catch (err: any) {
       message.error(err.response?.data?.error || "Registration failed");
     } finally {
