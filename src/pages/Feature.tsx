@@ -18,13 +18,16 @@ const { Title } = Typography;
 const CreateFeature: React.FC = () => {
   const location = useLocation();
   const data = location.state;
+  const [file, setFile] = useState<File | null>(null);
+
 
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
-  const showEpic = !data.epic;
-  const showStory = data.epic;
+  const [showEpic, setShowEpic] = useState(!data.epic_sheet);
+  const [showStory, setShowStory] = useState(data.epic_sheet);
+
 
   const initialType = showEpic ? "Epic" : showStory ? "Story" : undefined;
 
@@ -39,20 +42,30 @@ const CreateFeature: React.FC = () => {
   };
 
   const onFinish = async (values: any) => {
+
     const formData = new FormData();
     formData.append("handle", data.handle);
 
     if(showEpic){
-            formData.append("epic", values.file.file);
+            formData.append("epic_sheet", file);
     }else{
-            formData.append("story", values.file.file);
+            formData.append("story_sheet", file);
     }
 
     try {
       setLoading(true);
-      const res = await axios.post("http://127.0.0.1:8000/api/widgets/update/", formData, {
+
+      const res = await axios.post("http://127.0.0.1:8000/api/widgets/update_feature/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      if (!res.data.epic_sheet) {
+        setShowEpic(true);
+        setShowStory(false);
+      } else {
+        setShowEpic(false);
+        setShowStory(true);
+      }
+
       message.success(res.data.message);
       handleClose();
     } catch (err: any) {
@@ -98,8 +111,8 @@ const CreateFeature: React.FC = () => {
             rules={[{ required: true, message: "Please select a type" }]}
           >
             <Select placeholder="Select type">
-              <Select.Option value="Epic">Epic</Select.Option>
-              <Select.Option value="Story">Story</Select.Option>
+              {showEpic && <Select.Option value="Epic">Epic</Select.Option>}
+              {showStory && <Select.Option value="Story">Story</Select.Option>}
               <Select.Option value="Details">Details</Select.Option>
             </Select>
           </Form.Item>
@@ -108,10 +121,13 @@ const CreateFeature: React.FC = () => {
             label="Upload File"
             name="file"
             valuePropName="file"
-            getValueFromEvent={(e) => e && e.fileList?.[0] && { file: e.fileList[0] }}
             rules={[{ required: true, message: "Please select a file" }]}
           >
-            <Upload beforeUpload={() => false} maxCount={1}>
+            <Upload  beforeUpload={(file) => {
+                                  setFile(file);
+                                  return false;
+                              }}
+                              maxCount={1}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
           </Form.Item>
