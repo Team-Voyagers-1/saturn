@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import { Button,Typography, Layout, Menu, theme,Card, Row, Col ,Flex, Modal  } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Button,Typography, Layout, Menu, theme,Card, Row, Col ,Flex, Modal,message, Spin  } from 'antd';
 import { PlusOutlined } from "@ant-design/icons";
 import CreateFeature from "./CreateFeature";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const { Header, Content,Sider } = Layout;
 
@@ -13,18 +16,53 @@ const items = Array.from({ length: 4 }).map((_, index) => ({
   label: `nav ${index + 1}`,
 }));
 
-
 const Home: React.FC = () => {
+  const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
+  const [isCreateFeature,setIsCreateFeature ] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [featureHandle, setFeatureHandle] = useState('');
+  const [featureList, setFeatureList] = useState([]);
+  const userRole = localStorage.getItem("user_role");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchAllFeatures = async () => {
+      try {
+        const res = await axios.get('http://127.0.0.1:8000/api/widgets/all-features/'); 
+        setFeatureList(res.data);
+        message.success(res.data.message);
+      } catch (err : any) {
+        message.error(err.response?.data?.error || "Failed to load features")
+      } finally {
+        setLoading(false);
+      }
+    };
+  fetchAllFeatures();
+  }, []);
+
+  const handleFeatureClick = async(handle : string) => {
+    setLoading(true);
+    setFeatureHandle(handle);
+    try{
+       if (!featureHandle) {
+        message.error('Feature handle not found.');
+        setLoading(false);
+        return;
+      }
+       const res = await axios.get(`http://127.0.0.1:8000/api/widgets/feature-details/?handle=${featureHandle}`);
+       navigate(`/${featureHandle}`, { state: res.data });
+    }
+    catch(err: any){
+    message.error(err.response?.data?.error || "Failed to load Feature Details");
+    }finally {
+      setLoading(false);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("user_id");
     window.location.href = "/main";
   };
-
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
-  const [isCreateFeature,setIsCreateFeature ] = useState(false);
 
   const handleCreateFeature = ()=> {
     setIsCreateFeature(true);
@@ -34,9 +72,10 @@ const Home: React.FC = () => {
     setIsCreateFeature(false);
   };
 
-  const handleFeatureClick = () => {
-    window.location.href = "/feature";
+   if (loading) {
+    return <Spin tip="Loading cards..." size="large" />;
   }
+  
 
   return (
      <Layout>
@@ -67,51 +106,37 @@ const Home: React.FC = () => {
               items={items}
             />
           </Sider>
-      <Content style={{ padding: '48px' }}>
-  
-
-        
+         <Content style={{ padding: '48px' }}>
             <Flex gap="middle" align="start" vertical>
               <Row gutter={16}>
+                {(userRole === "admin" || userRole ==="productOwner") && (
                 <Col span={8}>  
-                <Card 
-            style={{ width: 240, height:260}}
-           title="Create Feature"
-          >
-            <Button type="link" onClick={handleCreateFeature}>
-           <PlusOutlined style={{ fontSize: '60px',justifyContent : "center"} }/>
-           </Button>
-           <Modal
-       closable={{ 'aria-label': 'Custom Close Button' }}
-        open={isCreateFeature}
-        onCancel={handleCancel}
-      >
-       <CreateFeature/>
-      </Modal>
-          </Card>
-          </Col>
-                {Array.from({ length: 15 }, (_, index) => (
-                <Col span={8}>  
-                <Card
-            hoverable
-            onClick={handleFeatureClick}
-            style={{ width: 240, padding : 20 }}
-            cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-          </Col>
-   
-          ))}
+                  <Card style={{ width: 240, height:260}} title="Create Feature">
+                    <Button type="link" onClick={handleCreateFeature}>
+                      <PlusOutlined style={{ fontSize: '60px',justifyContent : "center"} }/>
+                    </Button>
+                    <Modal closable={{ 'aria-label': 'Custom Close Button' }}
+                          open={isCreateFeature}
+                          onCancel={handleCancel}>
+                      <CreateFeature/>
+                    </Modal>
+                  </Card>
+                </Col>
+              )}
               
-          </Row>
-          
-           </Flex>
-         
-         
-         
-      
-      </Content>
+              { featureList.map((feature)=>(
+                <Col span={8}>  
+                  <Card
+                    hoverable
+                    onClick={()=>handleFeatureClick(feature.handle)}
+                    style={{ width: 240, padding : 20 }}>
+                      <Meta title={feature?.name} description={feature?.handle} />
+                  </Card>
+                </Col>
+              ))}
+              </Row>
+            </Flex>
+         </Content>
       </Layout>
        </div>
     </Layout>
