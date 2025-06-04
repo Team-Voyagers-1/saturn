@@ -1,37 +1,26 @@
 import React from "react";
-<<<<<<< HEAD
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-=======
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
->>>>>>> 7275d780dc2a97ccd94823b05dc990b788a0dbdf
 import Home from "./pages/Home";
 import PrivateRoute from "./components/PrivateRoute";
 import Main from "./pages/Main";
 import Feature from "./pages/Feature";
-<<<<<<< HEAD
-=======
 import CreateFeature from "./pages/CreateFeature";
->>>>>>> 7275d780dc2a97ccd94823b05dc990b788a0dbdf
+import Config from "./pages/config";
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-<<<<<<< HEAD
-        <Route path="/" element={<Navigate replace to="/main" />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
-       <Route path="/:handle" element={<Feature />} />
-=======
         {/* <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} /> */}
         <Route path="/main" element={<Main />} />
         <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
        <Route path="/:handle" element={<Feature />} />
+       <Route path="/config" element={<Config />} />
+
         {/* <Route path="/createFeature" element={<CreateFeature />} /> */}
->>>>>>> 7275d780dc2a97ccd94823b05dc990b788a0dbdf
       </Routes>
     </BrowserRouter>
   );
