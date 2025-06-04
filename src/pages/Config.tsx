@@ -8,38 +8,53 @@ import {
   Input,
   Button,
   Form,
+  Select,
   message,
+  Space,
 } from "antd";
+import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
-
-// Unique keys for form field names
-const roles =["Product Owner", "Scrum Master", "Dev Lead", "BA Lead", "QA Lead"];
+const roles = ["Product Owner", "Scrum Master", "Dev Lead", "BA Lead", "QA Lead"];
 
 const Config: React.FC = () => {
   const [isUserModalVisible, setIsUserModalVisible] = useState(false);
-  const [form] = Form.useForm();
+  const [isSubTaskModalVisible, setIsSubTaskModalVisible] = useState(false);
+  const [userForm] = Form.useForm();
+  const [subTaskForm] = Form.useForm();
 
-  const handleSubmit = async () => {
+  const handleUserSubmit = async () => {
     try {
-      const values = await form.validateFields();
-
-      // Map each role to its corresponding email_id
+      const values = await userForm.validateFields();
       const payload = roles.map((role) => ({
         role,
-        email_id: values[role], // each role has a unique key
+        email_id: values[role],
       }));
 
-      console.log("Submitted:", payload);
-
-      // Example API call
-      // await axios.post("http://localhost:8000/api/config/set-users/", payload);
-
+      console.log("User Roles Payload:", payload);
       message.success("Roles updated successfully");
-      form.resetFields();
+      userForm.resetFields();
       setIsUserModalVisible(false);
     } catch (err) {
       message.error("Please enter valid email IDs for all roles");
+    }
+  };
+
+  const handleSubTaskSubmit = async () => {
+    try {
+      const values = await subTaskForm.validateFields();
+      const payload = values.subtasks.map((task: any) => ({
+        summary: task.summary,
+        assignee: task.assignee,
+        sla: task.sla,
+      }));
+
+      console.log("Sub Task Payload:", payload);
+      message.success("Sub tasks saved successfully");
+      subTaskForm.resetFields();
+      setIsSubTaskModalVisible(false);
+    } catch (err) {
+      message.error("Please fill all Sub Task fields correctly");
     }
   };
 
@@ -61,7 +76,12 @@ const Config: React.FC = () => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card title="Sub Task" bordered hoverable>
+          <Card
+            title="Sub Task"
+            bordered
+            hoverable
+            onClick={() => setIsSubTaskModalVisible(true)}
+          >
             Configure Sub Task Settings
           </Card>
         </Col>
@@ -72,6 +92,7 @@ const Config: React.FC = () => {
         </Col>
       </Row>
 
+      {/* User Roles Modal */}
       <Modal
         title="Configure User Roles"
         open={isUserModalVisible}
@@ -79,7 +100,7 @@ const Config: React.FC = () => {
         footer={null}
         destroyOnClose
       >
-        <Form form={form} layout="vertical">
+        <Form form={userForm} layout="vertical">
           {roles.map((role) => (
             <Row key={role} gutter={16} align="middle" style={{ marginBottom: 16 }}>
               <Col span={6}>
@@ -100,7 +121,81 @@ const Config: React.FC = () => {
           ))}
 
           <Form.Item style={{ textAlign: "center", marginTop: 24 }}>
-            <Button type="primary" onClick={handleSubmit}>
+            <Button type="primary" onClick={handleUserSubmit}>
+              Set
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Sub Task Modal */}
+      <Modal
+        title="Configure Sub Tasks"
+        open={isSubTaskModalVisible}
+        onCancel={() => setIsSubTaskModalVisible(false)}
+        footer={null}
+        destroyOnClose
+        width={750}
+      >
+        <Form form={subTaskForm} layout="vertical" name="subtask_form">
+          <Form.List name="subtasks">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <Space
+                    key={key}
+                    style={{ display: "flex", marginBottom: 8 }}
+                    align="baseline"
+                  >
+                    <Form.Item
+                      {...restField}
+                      name={[name, "summary"]}
+                      rules={[{ required: true, message: "Enter Summary" }]}
+                    >
+                      <Input placeholder="Summary" style={{ width: 200 }} />
+                    </Form.Item>
+
+                    <Form.Item
+                      {...restField}
+                      name={[name, "assignee"]}
+                      rules={[{ required: true, message: "Select Assignee" }]}
+                    >
+                      <Select placeholder="Assignee" style={{ width: 160 }}>
+                        {roles.map((role) => (
+                          <Select.Option key={role} value={role}>
+                            {role}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                      {...restField}
+                      name={[name, "sla"]}
+                      rules={[{ required: true, message: "Enter SLA" }]}
+                    >
+                      <Input placeholder="SLA" style={{ width: 120 }} />
+                    </Form.Item>
+
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                  </Space>
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    icon={<PlusOutlined />}
+                    style={{ width: "150px"}}
+                  >
+                    Add Sub Task
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+
+          <Form.Item style={{ textAlign: "center", marginTop: 24 }}>
+            <Button type="primary" onClick={handleSubTaskSubmit}>
               Set
             </Button>
           </Form.Item>
