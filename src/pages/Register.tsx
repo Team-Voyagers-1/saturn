@@ -70,11 +70,13 @@ const Register: React.FC = ({messageApi}) => {
               label="Role"
               rules={[{ required: true, message: 'Please select a role' }]}>
               <Select placeholder="Select a role">
-                 <Option value="admin">Admin</Option>
-                 <Option value="productOwner">Product Owner</Option>
-                 <Option value="scrumMaster">Scrum Master</Option>
-                 <Option value="businessAnalyst">Business Analyst</Option>
-                 <Option value="devLead">Dev Lead</Option>
+                 <Option value="Admin">Admin</Option>
+                 <Option value="Product Owner">Product Owner</Option>
+                 <Option value="Scrum Master">Scrum Master</Option>
+                 <Option value="BA Lead">Business Analyst</Option>
+                 <Option value="Dev Lead">Dev Lead</Option>
+                 <Option value="QA Lead">QA Lead</Option>
+
               </Select>
           </Form.Item>
           <Button type="primary" htmlType="submit" loading={loading} block>

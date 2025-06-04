@@ -111,7 +111,7 @@ const Home: React.FC = () => {
           {contextHolder}
             <Flex gap="middle" align="start" vertical>
               <Row gutter={16}>
-                {(userRole === "admin" || userRole ==="productOwner") && (
+                {(userRole === "Admin" || userRole ==="Product Owner") && (
                 <Col span={8}>  
                   <Card style={{ width: 240, height:260}} title="Create Feature">
                     <Button type="link" onClick={handleCreateFeature}>
