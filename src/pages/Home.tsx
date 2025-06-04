@@ -18,6 +18,7 @@ const items = Array.from({ length: 4 }).map((_, index) => ({
 
 const Home: React.FC = () => {
   const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
+  const [messageApi, contextHolder] = message.useMessage();
   const [isCreateFeature,setIsCreateFeature ] = useState(false);
   const [loading, setLoading] = useState(false);
   const [featureHandle, setFeatureHandle] = useState('');
@@ -107,6 +108,7 @@ const Home: React.FC = () => {
             />
           </Sider>
          <Content style={{ padding: '48px' }}>
+          {contextHolder}
             <Flex gap="middle" align="start" vertical>
               <Row gutter={16}>
                 {(userRole === "admin" || userRole ==="productOwner") && (
@@ -117,8 +119,9 @@ const Home: React.FC = () => {
                     </Button>
                     <Modal closable={{ 'aria-label': 'Custom Close Button' }}
                           open={isCreateFeature}
-                          onCancel={handleCancel}>
-                      <CreateFeature/>
+                          onCancel={handleCancel}
+                          footer = {null} >
+                      <CreateFeature messageApi={messageApi}/>
                     </Modal>
                   </Card>
                 </Col>
