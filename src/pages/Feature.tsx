@@ -18,11 +18,7 @@ import axios from "axios";
 
 const { Title } = Typography;
 
-<<<<<<< HEAD
 const Feature: React.FC = () => {
-=======
-const CreateFeature: React.FC = () => {
->>>>>>> 7275d780dc2a97ccd94823b05dc990b788a0dbdf
   const location = useLocation();
   const data = location.state;
   const [file, setFile] = useState<File | null>(null);
@@ -261,8 +257,4 @@ const CreateFeature: React.FC = () => {
   );
 };
 
-<<<<<<< HEAD
 export default Feature;
-=======
-export default CreateFeature;
->>>>>>> 7275d780dc2a97ccd94823b05dc990b788a0dbdf
