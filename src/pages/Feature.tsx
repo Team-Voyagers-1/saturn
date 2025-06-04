@@ -27,7 +27,7 @@ const items = Array.from({ length: 4 }).map((_, index) => ({
   label: `nav ${index + 1}`,
 }));
 
-const CreateFeature: React.FC = () => {
+const Feature: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const data = location.state;
@@ -259,4 +259,5 @@ const CreateFeature: React.FC = () => {
   );
 };
 
-export default CreateFeature;
+
+export default Feature;

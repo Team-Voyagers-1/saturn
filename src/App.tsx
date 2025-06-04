@@ -1,7 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import PrivateRoute from "./components/PrivateRoute";
 import Main from "./pages/Main";
@@ -13,8 +11,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} /> */}
+        <Route path="/" element={<Navigate replace to="/main" />} />
         <Route path="/main" element={<Main />} />
         <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
        <Route path="/:handle" element={<Feature />} />

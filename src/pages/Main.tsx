@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button,Modal,Typography, Layout, Menu, theme,Card, Row, Col ,Flex, MenuProps  } from 'antd';
+import { Button,Modal,Typography, Layout, Menu, theme,Card, Row, Col ,Flex, MenuProps, message  } from 'antd';
 import Login from './Login'; 
 import Register from './Register';
 
@@ -23,7 +23,7 @@ const Main: React.FC = () => {
     window.location.href = "/login";
   };
 
- 
+  const [messageApi, contextHolder] = message.useMessage();
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
   
   const [isRegistermodalVisible, setIsRegistermodalVisible] = useState(false);
@@ -63,6 +63,8 @@ const handleRegister =()=>{
        closable={{ 'aria-label': 'Custom Close Button' }}
         open={isLoginModalVisible}
         onCancel={handleCancel}
+        footer = {null}
+        
       >
         <Login />
       </Modal>
@@ -73,8 +75,9 @@ const handleRegister =()=>{
        closable={{ 'aria-label': 'Custom Close Button' }}
         open={isRegistermodalVisible}
         onCancel={handleCancel}
+        footer = {null}
       >
-        <Register />
+        <Register messageApi={messageApi}/>
       </Modal>
       </Flex>
       </Header>
@@ -84,6 +87,7 @@ const handleRegister =()=>{
         >
 
       <Content style={{ padding: '48px' }}>
+      {contextHolder}
         <Layout
                   style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
                 >

@@ -9,9 +9,24 @@ interface FormValues {
   password: string;
 }
 
-const Register: React.FC = () => {
+
+const Register: React.FC = ({messageApi}) => {
+  
   const [loading, setLoading] = useState(false);
 
+  const success = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'User registered',
+    });
+  };
+  const error = (errorMessage) => {
+    messageApi.open({
+      type: 'error',
+      content: errorMessage,
+    });
+  };
+ 
   const onFinish = async (values: FormValues) => {
     setLoading(true);
     try {
@@ -20,13 +35,17 @@ const Register: React.FC = () => {
         "http://127.0.0.1:8000/api/users/register/",
         values,
       );
-      message.success(res.data.message);
-      window.location.href = "/main";
+      success();
+      setTimeout(()=>{ window.location.href= "/main";},1000)
+     
+
     } catch (err: any) {
-      message.error(err.response?.data?.error || "Registration failed");
+
+      error(err.response.data.error);
     } finally {
       setLoading(false);
     }
+     
   };
 
   return (

@@ -9,11 +9,19 @@ interface FormValues {
   file: File;
 }
 
-const CreateFeature: React.FC = () => {
+const CreateFeature: React.FC = ({messageApi}) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [file, setFile] = useState<File | null>(null);
   const navigate = useNavigate();
+
+
+  const error = (errorMessage) => {
+    messageApi.open({
+      type: 'error',
+      content: errorMessage,
+    });
+  };
 
   const onFinish = async (values: FormValues) => {
     setLoading(true);
@@ -29,12 +37,11 @@ const CreateFeature: React.FC = () => {
         "http://127.0.0.1:8000/api/widgets/upload/",
         formData,
       );
-      message.success(res.data.message);
       const featureHandle  = "new-feature";
       navigate(`/${featureHandle}`, { state: res.data });
       form.resetFields();
     } catch (err: any) {
-      message.error(err.response?.data?.error || "Failed to create Feature");
+      error(err.response?.data?.error || "Failed to create Feature");
     } finally {
       setLoading(false);
     }
