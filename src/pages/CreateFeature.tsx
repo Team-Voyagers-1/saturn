@@ -30,7 +30,8 @@ const CreateFeature: React.FC = () => {
         formData,
       );
       message.success(res.data.message);
-      navigate("/feature", { state: res.data });
+      const featureHandle  = "new-feature";
+      navigate(`/${featureHandle}`, { state: res.data });
       form.resetFields();
     } catch (err: any) {
       message.error(err.response?.data?.error || "Failed to create Feature");

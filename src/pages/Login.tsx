@@ -17,6 +17,7 @@ const Login: React.FC = () => {
       const res = await axios.post("http://127.0.0.1:8000/api/users/login/", values);
       message.success(res.data.message);
       localStorage.setItem("user_id", res.data.user_id);
+      localStorage.setItem("user_role",res.data.role);
       window.location.href = "/home";
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || "Login failed";
