@@ -151,7 +151,7 @@ const Feature: React.FC = () => {
   };
 
   const handleSetConfigs = () => {
-    navigate("/config");
+    navigate("/config", { state: { handle: data.handle } });
   };
 
   return (
