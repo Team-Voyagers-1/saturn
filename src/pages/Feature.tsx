@@ -330,7 +330,7 @@ setRefresh(prev => prev + 1);
   };
 
   const handleSetConfigs = () => {
-    navigate("/config");
+    navigate("/config", { state: { handle: data.handle } });
   };
 
   return (
