@@ -82,7 +82,7 @@ const Home: React.FC = () => {
      <Layout>
       <Header style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between' }}>
         <div className="demo-logo" />
-        <Title level={2} style={{ color: '#ffffff',paddingTop:10,paddingRight : 10, textAlign: "center",fontFamily: "Tahoma, sans-seri", fontSize: "40px"  }} >HOME</Title>
+        <Title level={2} style={{ color: '#ffffff',paddingTop:10,paddingRight : 10, textAlign: "center", fontSize: "30px"  }} >HOME</Title>
         
         <Button type="primary" onClick={handleLogout} style={{justifySelf: 'end'}}>
           Logout
@@ -93,7 +93,7 @@ const Home: React.FC = () => {
           style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
         >
     
-         <Content style={{ padding: '48px' }}>
+         <Content style={{ padding: '48px', alignItems: 'center', justifyContent:'space-between'}}>
           {contextHolder}
           <Row gutter={[16, 16]}>
                 {(userRole === "Admin" || userRole ==="Product Owner") && (
@@ -117,8 +117,8 @@ const Home: React.FC = () => {
                   <Card
                     hoverable
                     onClick={()=>handleFeatureClick(feature.handle)}
-                    style={{ width: 240, height:150, padding : 20 }}>
-                      <Meta title={feature?.name} />
+                    style={{ width: 240, height:150, padding : 20,justifyContent : "center" }}>
+                      <Meta title={feature?.name.toUpperCase()} />
                   </Card>
                 </Col>
               ))}

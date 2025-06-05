@@ -88,15 +88,15 @@ const handleRegister =()=>{
                   style={{ padding: '24px 24px', background: colorBgContainer, borderRadius: borderRadiusLG, alignItems : 'center' }}
                 >
                    
-  <h1 >Storycraft.Ai</h1>
-  <Flex gap="small" wrap>
-  <Button type="primary" onClick={handleLogin} >
-          Login
-        </Button>
-        <Button type="primary" onClick={handleRegister}>
-          Register
-        </Button>
-        </Flex>
+  <h1 style={{fontSize : '50px',paddingBottom : '20px'}}>Storycraft.Ai</h1>
+    <Flex gap="small" wrap>
+    <Button type="primary" onClick={handleLogin}  style={{ fontSize: '18px', height: '48px', padding: '0 24px' }}>
+            Login
+          </Button>
+          <Button type="primary" onClick={handleRegister}  style={{ fontSize: '18px', height: '48px', padding: '0 24px' }}>
+            Register
+          </Button>
+          </Flex>
      </Layout>
       
       </Content>

@@ -136,7 +136,7 @@ useEffect(()=> {
                     onClick={() => performFileAction(action, record.type,record.file_id)}
                     style={{ marginRight: 8 }}
                   >
-                    {action}
+                    {action.toUpperCase()}
                   </Button>
                 ))}
               </>

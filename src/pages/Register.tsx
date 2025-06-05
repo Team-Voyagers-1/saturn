@@ -17,9 +17,9 @@ const Register: React.FC = ({messageApi}) => {
   
   const [loading, setLoading] = useState(false);
   
-  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedRole, setSelectedRole] =  useState<string | undefined>(undefined);
  
-  const handleRoleChange = (value) => {
+  const handleRoleChange = (value: string) => {
     setSelectedRole(value);
   };
 
@@ -69,18 +69,12 @@ const Register: React.FC = ({messageApi}) => {
             <Input />
           </Form.Item>
           <Form.Item
-            name="password"
-            label="Password"
-            rules={[{ required: true , message: "Please input your password!"}]}>
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
               name="role"
               label="Role"
               rules={[{ required: true, message: 'Please select a role' }]}
-              onChange={handleRoleChange}>
+            >
                 
-              <Select placeholder="Select a role">
+              <Select placeholder="Select a role" onChange={handleRoleChange}>
                  <Option value="Admin">Admin</Option>
                  <Option value="Product Owner">Product Owner</Option>
                  <Option value="Scrum Master">Scrum Master</Option>
@@ -97,6 +91,12 @@ const Register: React.FC = ({messageApi}) => {
             rules={[{ required: true, type: "email", message: "Please input a valid email!" }]}>
             <Input />
           </Form.Item>)}
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[{ required: true , message: "Please input your password!"}]}>
+            <Input.Password />
+          </Form.Item>
           <Button type="primary" htmlType="submit" loading={loading} block>
             Register
           </Button>

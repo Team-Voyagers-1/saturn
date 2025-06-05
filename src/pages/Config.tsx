@@ -13,6 +13,7 @@
     Space,
     Radio,
     Divider,
+    Layout
   } from "antd";
   import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
   import { getFieldConfig } from "../fieldDictionary";
@@ -22,6 +23,7 @@
 
   const { Title } = Typography;
   const { Option } = Select;
+  const { Header, Content,Sider } = Layout;
 
   const roles = ["Product Owner", "Scrum Master", "Dev Lead", "BA Lead", "QA Lead"];
 
@@ -106,11 +108,15 @@
     const currentFields = getFieldConfig(selectedFieldType.toLowerCase() as "epic" | "story");
 
     return (
-      <div style={{ padding: 40 }}>
-        <Title level={2} style={{ textAlign: "center" }}>
+      <Layout>
+      <Header style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="demo-logo" />
+        <Title level={2} style={{ color: '#ffffff',paddingTop:10,paddingRight : 10, textAlign: "center" }}>
           Configuration Settings
         </Title>
-
+      </Header>
+  
+<Content style={{ padding: '48px' }}>
         <Row gutter={24} justify="center" style={{ marginTop: 30 }}>
           <Col span={6}>
             <Card title="User" bordered hoverable onClick={() => setIsUserModalVisible(true)}>
@@ -128,6 +134,7 @@
             </Card>
           </Col>
         </Row>
+        </Content>
 
         {/* User Roles Modal */}
         <Modal
@@ -342,7 +349,7 @@
             </Form.Item>
           </Form>
         </Modal>
-      </div>
+        </Layout>
     );
   };
 
