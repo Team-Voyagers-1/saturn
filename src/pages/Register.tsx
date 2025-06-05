@@ -6,13 +6,22 @@ const { Title } = Typography;
 
 interface FormValues {
   username: string;
+  useremail:  string;
   password: string;
 }
+
+const { Option } = Select;
 
 
 const Register: React.FC = ({messageApi}) => {
   
   const [loading, setLoading] = useState(false);
+  
+  const [selectedRole, setSelectedRole] = useState("");
+ 
+  const handleRoleChange = (value) => {
+    setSelectedRole(value);
+  };
 
   const success = () => {
     messageApi.open({
@@ -56,19 +65,21 @@ const Register: React.FC = ({messageApi}) => {
           <Form.Item
             name="username"
             label="Username"
-            rules={[{ required: true }]}>
+            rules={[{ required: true , message: "Please input your username!"}]}>
             <Input />
           </Form.Item>
           <Form.Item
             name="password"
             label="Password"
-            rules={[{ required: true }]}>
+            rules={[{ required: true , message: "Please input your password!"}]}>
             <Input.Password />
           </Form.Item>
           <Form.Item
               name="role"
               label="Role"
-              rules={[{ required: true, message: 'Please select a role' }]}>
+              rules={[{ required: true, message: 'Please select a role' }]}
+              onChange={handleRoleChange}>
+                
               <Select placeholder="Select a role">
                  <Option value="Admin">Admin</Option>
                  <Option value="Product Owner">Product Owner</Option>
@@ -79,6 +90,13 @@ const Register: React.FC = ({messageApi}) => {
 
               </Select>
           </Form.Item>
+          {selectedRole === "Admin" && (
+          <Form.Item
+            name="useremail"
+            label="Useremail"
+            rules={[{ required: true, type: "email", message: "Please input a valid email!" }]}>
+            <Input />
+          </Form.Item>)}
           <Button type="primary" htmlType="submit" loading={loading} block>
             Register
           </Button>

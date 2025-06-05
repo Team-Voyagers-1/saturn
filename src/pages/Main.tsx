@@ -11,7 +11,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const items : MenuItem[] =[
     {
-        label:"about us",
+        label:"ABOUT US",
         key:'mail'
     }
 ]
@@ -47,18 +47,16 @@ const handleRegister =()=>{
      <Layout>
       <Header style={{ display: 'flex', alignItems: 'center' }}>
         <div className="demo-logo" />
-        <Title level={2} style={{ color: '#ffffff',paddingTop:10,paddingRight : 10, textAlign: "center" }} >Logo</Title>
+        <Title level={2} style={{ color: '#ffffff',paddingTop:10,paddingRight : 10, textAlign: "center" }} >VOYEGERS</Title>
         <Menu
           theme="dark"
           mode="horizontal"
           defaultSelectedKeys={['0']}
           items={items}
-          style={{ flex: 1, minWidth: 0 }}
+          style={{ flex: 1, minWidth: 0 , justifyContent: 'end' }}
         />
         <Flex gap="small" wrap>
-        <Button type="primary" onClick={handleLogin}>
-          Login
-        </Button>
+        
           <Modal
        closable={{ 'aria-label': 'Custom Close Button' }}
         open={isLoginModalVisible}
@@ -68,9 +66,7 @@ const handleRegister =()=>{
       >
         <Login />
       </Modal>
-      <Button type="primary" onClick={handleRegister}>
-          Register
-        </Button>
+  
           <Modal
        closable={{ 'aria-label': 'Custom Close Button' }}
         open={isRegistermodalVisible}
@@ -89,19 +85,18 @@ const handleRegister =()=>{
       <Content style={{ padding: '48px' }}>
       {contextHolder}
         <Layout
-                  style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
+                  style={{ padding: '24px 24px', background: colorBgContainer, borderRadius: borderRadiusLG, alignItems : 'center' }}
                 >
-                    <Flex gap ="medium" wrap >
-  <h1 >Team voyagers</h1>
-      <p >
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-     
-</Flex>
+                   
+  <h1 >Storycraft.Ai</h1>
+  <Flex gap="small" wrap>
+  <Button type="primary" onClick={handleLogin} >
+          Login
+        </Button>
+        <Button type="primary" onClick={handleRegister}>
+          Register
+        </Button>
+        </Flex>
      </Layout>
       
       </Content>

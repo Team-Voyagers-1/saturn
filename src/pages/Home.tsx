@@ -80,17 +80,11 @@ const Home: React.FC = () => {
 
   return (
      <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
+      <Header style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between' }}>
         <div className="demo-logo" />
-        <Title level={2} style={{ color: '#ffffff',paddingTop:10,paddingRight : 10, textAlign: "center" }} >Home Page</Title>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['1']}
-          items={items}
-          style={{ flex: 1, minWidth: 0 }}
-        />
-        <Button type="primary" onClick={handleLogout}>
+        <Title level={2} style={{ color: '#ffffff',paddingTop:10,paddingRight : 10, textAlign: "center",fontFamily: "Tahoma, sans-seri", fontSize: "40px"  }} >HOME</Title>
+        
+        <Button type="primary" onClick={handleLogout} style={{justifySelf: 'end'}}>
           Logout
         </Button>
       </Header>
@@ -98,24 +92,15 @@ const Home: React.FC = () => {
           <Layout
           style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
         >
-      <Sider style={{ background: colorBgContainer }} width={200}>
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%' }}
-              items={items}
-            />
-          </Sider>
+    
          <Content style={{ padding: '48px' }}>
           {contextHolder}
-            <Flex gap="middle" align="start" vertical>
-              <Row gutter={16}>
+          <Row gutter={[16, 16]}>
                 {(userRole === "Admin" || userRole ==="Product Owner") && (
                 <Col span={8}>  
-                  <Card style={{ width: 240, height:260}} title="Create Feature">
+                  <Card style={{ width: 240, height:150}} title="Create Feature">
                     <Button type="link" onClick={handleCreateFeature}>
-                      <PlusOutlined style={{ fontSize: '60px',justifyContent : "center"} }/>
+                      <PlusOutlined style={{ fontSize: '40px',justifyContent : "center"} }/>
                     </Button>
                     <Modal closable={{ 'aria-label': 'Custom Close Button' }}
                           open={isCreateFeature}
@@ -132,13 +117,13 @@ const Home: React.FC = () => {
                   <Card
                     hoverable
                     onClick={()=>handleFeatureClick(feature.handle)}
-                    style={{ width: 240, padding : 20 }}>
-                      <Meta title={feature?.name} description={feature?.handle} />
+                    style={{ width: 240, height:150, padding : 20 }}>
+                      <Meta title={feature?.name} />
                   </Card>
                 </Col>
               ))}
               </Row>
-            </Flex>
+          
          </Content>
       </Layout>
        </div>
